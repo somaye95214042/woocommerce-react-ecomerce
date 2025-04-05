@@ -21,9 +21,9 @@ const CartPage = () => {
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={item.images[0]?.src}
+                    src={item.image}
                     alt={item.name}
-                    className="w-16 h-16 object-cover rounded-md"
+                    className="w-16 h-16 object-fill rounded-md"
                   />
                   <div>
                     <p className="font-medium">{item.name}</p>

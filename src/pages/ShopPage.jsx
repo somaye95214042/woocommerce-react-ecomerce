@@ -5,20 +5,37 @@ import ProductCard from "../components/ProductCard";
 import ShopPageLoader from "../components/ShopPageLoader";
 
 const ShopPage = () => {
-  const [products, setProducts] = useState([]);
   const [sortedProducts, setSortedProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [sortOrder, setSortOrder] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const productsPerPage = 8;
+  const perPage = 8;
+
+  // useEffect(() => {
+  //   const loadProducts = async () => {
+  //     const data = await fetchProducts(currentPage, productsPerPage);
+  //     setProducts(data.products);
+  //     setTotalPages(data.totalPages);
+  //   };
+  //   loadProducts();
+  // }, [currentPage]);
 
   useEffect(() => {
-    const loadProducts = async () => {
-      const data = await fetchProducts(currentPage, productsPerPage);
-      setProducts(data.products);
-      setTotalPages(data.totalPages);
+    const getProducts = async () => {
+      try {
+        const { products, totalPages } = await fetchProducts(
+          currentPage,
+          perPage
+        );
+        setProducts(products);
+        setTotalPages(totalPages);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    loadProducts();
+
+    getProducts();
   }, [currentPage]);
 
   const sortProducts = (order) => {
@@ -38,12 +55,42 @@ const ShopPage = () => {
     sortProducts(sortOrder);
   }, [products]);
 
-  const handlePageChange = (page) => setCurrentPage(page);
+  const handlePrev = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <button
+          key={i}
+          onClick={() => handlePageClick(i)}
+          className={`px-3 py-1 rounded ${
+            i === currentPage ? "bg-[#162b54] text-white" : "bg-gray-200"
+          }`}
+        >
+          {i}
+        </button>
+      );
+    }
+    return pages;
+  };
+
+  // const handlePageChange = (page) => setCurrentPage(page);
 
   if (!products.length) return <ShopPageLoader />;
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen mb-[50px]">
       <div className="container mx-auto px-4 py-10 pt-40">
         {/* Grid layout with a narrower sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-[0.75fr_3.75fr] gap-8">
@@ -53,22 +100,33 @@ const ShopPage = () => {
               Filter by Category
             </h2>
             <ul className="space-y-2">
-              <Link to="/shop">
-                <li className="text-gray-600 hover:text-indigo-600 cursor-pointer">
-                  All Products
-                </li>
+              <Link
+                to="/shop"
+                className="text-gray-600 hover:text-indigo-600 cursor-pointer block"
+              >
+                All Products
               </Link>
-              <Link to="product-category/fashion">
-                <li className="text-gray-600 hover:text-indigo-600 cursor-pointer">
-                  Clothing
-                </li>
+
+              <Link
+                to="/product-category/women's%20clothing"
+                className="text-gray-600 hover:text-indigo-600 cursor-pointer block"
+              >
+                Women Clothing
               </Link>
-              <li className="text-gray-600 hover:text-indigo-600 cursor-pointer">
+
+              <Link
+                to="/product-category/men's%20clothing"
+                className="text-gray-600 hover:text-indigo-600 cursor-pointer block"
+              >
+                Men Clothing
+              </Link>
+
+              <Link
+                to="http://localhost:3000/product-category/jewelery"
+                className="text-gray-600 hover:text-indigo-600 cursor-pointer block"
+              >
                 Accessories
-              </li>
-              <li className="text-gray-600 hover:text-indigo-600 cursor-pointer">
-                Shoes
-              </li>
+              </Link>
             </ul>
           </aside>
 
@@ -95,7 +153,7 @@ const ShopPage = () => {
             </div>
 
             {/* Pagination */}
-            <div className="mt-16 flex justify-center">
+            {/* <div className="mt-16 flex justify-center">
               <nav
                 className="inline-flex rounded-md shadow-sm -space-x-px"
                 aria-label="Pagination"
@@ -144,9 +202,29 @@ const ShopPage = () => {
                   Next &gt;
                 </button>
               </nav>
-            </div>
+            </div> */}
           </div>
         </div>
+      </div>
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-8 space-x-2">
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+
+        {renderPageNumbers()}
+
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

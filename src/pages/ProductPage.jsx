@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchProductById } from "../utils/WooCommerceApi";
-import { fetchRelatedProducts } from "../utils/WooCommerceApi";
+// import { fetchRelatedProducts } from "../utils/WooCommerceApi";
 import { useCart } from "../Context/CartContext";
 
 const ProductPage = () => {
@@ -9,8 +9,8 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [relatedProducts, setRelatedProducts] = useState([]);
+  // const [loading, setLoading] = useState(true);
 
   const stripHtmlTags = (html) => {
     return html.replace(/<\/?[^>]+(>|$)/g, ""); // Removes all HTML tags
@@ -24,14 +24,18 @@ const ProductPage = () => {
     loadProductById();
   }, [id]);
 
-  useEffect(() => {
-    const loadRelatedProducts = async () => {
-      const data = await fetchRelatedProducts(id);
-      setRelatedProducts(data);
-      setLoading(false);
-    };
-    loadRelatedProducts();
-  }, [id]);
+  {
+    console.log(product);
+  }
+
+  // useEffect(() => {
+  //   const loadRelatedProducts = async () => {
+  //     const data = await fetchRelatedProducts(id);
+  //     setRelatedProducts(data);
+  //     setLoading(false);
+  //   };
+  //   loadRelatedProducts();
+  // }, [id]);
 
   const handleQuantityChange = (amount) => {
     if (quantity + amount > 0) {
@@ -59,17 +63,17 @@ const ProductPage = () => {
     <div className="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-6">
       <div className="max-w-5xl w-full bg-white shadow-lg rounded-lg overflow-hidden md:flex mt-20">
         {/* Product Image */}
-        <div className="md:w-1/2 flex items-center justify-center bg-gray-100">
+        <div className="md:w-1/2 flex items-center justify-center">
           <img
-            src={product.images[0]?.src}
-            alt={product.name}
-            className="w-full h-auto object-cover rounded-lg"
+            src={product.image}
+            alt={product.title}
+            className="w-full h-auto object-cover rounded-lg p-[60px]"
           />
         </div>
 
         {/* Product Details */}
         <div className="p-8 md:w-1/2 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold text-gray-900">{product.name}</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{product.title}</h2>
           <p className="text-gray-700 mt-4 leading-relaxed">
             {cleanDescription}
           </p>
@@ -105,7 +109,7 @@ const ProductPage = () => {
             </button>
           </div>
 
-          <div className="mt-10">
+          {/* <div className="mt-10">
             <strong className="text-gray-700">Category:</strong>
             {product.categories.map((category) => (
               <Link
@@ -116,10 +120,20 @@ const ProductPage = () => {
                 {category.name}
               </Link>
             ))}
+          </div> */}
+
+          <div className="mt-10">
+            <strong className="text-gray-700">Category:</strong>
+            <Link
+              to={`/product-category/${product.category}`}
+              className="ml-2 text-[#1e3c72] hover:underline"
+            >
+              {product.category}
+            </Link>
           </div>
         </div>
       </div>
-      {loading ? (
+      {/* {loading ? (
         <div className="mt-16">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">
             Related Products
@@ -140,7 +154,7 @@ const ProductPage = () => {
             <p className="text-gray-500">No related products found.</p>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

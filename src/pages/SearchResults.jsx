@@ -4,25 +4,59 @@ import { fetchSearchProducts } from "../utils/WooCommerceApi";
 import ProductCard from "../components/ProductCard";
 
 export default function SearchResults() {
+  // const [searchParams] = useSearchParams();
+  // const query = searchParams.get("query") || "";
+  // const [products, setProducts] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   if (!query) return; // Avoid fetching if there's no query
+
+  //   setLoading(true);
+
+  //   const loadProducts = async () => {
+  //     const data = await fetchSearchProducts(query);
+  //     setProducts(data);
+  //     setLoading(false);
+  //     setError(null);
+  //   };
+  //   loadProducts();
+  // }, [query]);
+
+  // const filteredProducts = products.filter((product) =>
+  //   product.title.toLowerCase().includes(searchTerm)
+  // );
+
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") || "";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const searchQuery = searchParams.get("query") || "";
+
+  {
+    console.log(searchQuery);
+  }
+
   useEffect(() => {
-    if (!query) return; // Avoid fetching if there's no query
-
-    setLoading(true);
-
-    const loadProducts = async () => {
-      const data = await fetchSearchProducts(query);
-      setProducts(data);
-      setLoading(false);
-      setError(null);
+    const fetchProducts = async () => {
+      setLoading(true);
+      try {
+        const result = await fetchSearchProducts(searchQuery);
+        console.log(result);
+        setProducts(result);
+        console.log(products);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+        setError(null);
+      }
     };
-    loadProducts();
-  }, [query]);
+
+    fetchProducts();
+  }, [searchQuery]);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -31,7 +65,8 @@ export default function SearchResults() {
           Search Results
         </h1>
         <p className="text-lg text-center text-gray-600 mb-10">
-          Results for: <span className="font-bold text-gray-900">{query}</span>
+          Results for:{" "}
+          <span className="font-bold text-gray-900">{searchQuery}</span>
         </p>
 
         {loading && (

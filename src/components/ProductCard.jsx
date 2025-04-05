@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import { useCart } from "../Context/CartContext";
+// import { useCart } from "../Context/CartContext";
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   return (
     <div
       key={product.id}
@@ -11,14 +11,15 @@ const ProductCard = ({ product }) => {
     >
       <Link to={`/product/${product.id}`}>
         <img
-          src={product.images[0]?.src}
+          // src={product.images[0]?.src}
+          src={product.image}
           alt={product.name}
-          className="w-full h-auto object-cover"
+          className="w-full h-auto object-cover p-[40px]"
         />
       </Link>
       <div className="p-4">
         <h2 className="text-[16px] font-semibold text-gray-800 truncate">
-          {product.name}
+          {product.title}
         </h2>
         <p className="text-gray-500 text-[15px] mt-1">${product.price}</p>
 

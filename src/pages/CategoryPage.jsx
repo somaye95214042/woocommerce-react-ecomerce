@@ -9,26 +9,27 @@ const CategoryPage = () => {
   const [categoryId, setCategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const loadCategory = async () => {
+  //     const response = await fetchCategory();
+  //     console.log(response);
+  //     const category = response.data.find((cat) => cat.slug === slug);
+  //     if (category) {
+  //       setCategoryId(category.id);
+  //     }
+  //   };
+
+  //   loadCategory();
+  // }, [slug]);
+
+  // console.log(categoryId);
+
   useEffect(() => {
-    const loadCategory = async () => {
-      const response = await fetchCategory();
-      console.log(response);
-      const category = response.data.find((cat) => cat.slug === slug);
-      if (category) {
-        setCategoryId(category.id);
-      }
-    };
-
-    loadCategory();
-  }, [slug]);
-
-  console.log(categoryId);
-
-  useEffect(() => {
-    if (!categoryId) return;
+    // if (!categoryId) return;
 
     const loadProductsCategory = async () => {
-      const response = await fetchProductsCategory(categoryId);
+      // const response = await fetchProductsCategory(categoryId);
+      const response = await fetchProductsCategory(slug);
       setProducts(response.data);
       setLoading(false);
     };

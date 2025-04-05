@@ -22,13 +22,14 @@ const RegisterForm = () => {
 
     try {
       const response = await fetch(
-        "http://localhost/fashion/wp-json/wp/v2/users",
+        // "http://localhost/fashion/wp-json/wp/v2/users",
+        "https://fakestoreapi.com/users",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2Zhc2hpb24iLCJpYXQiOjE3NDIwNDE2NTgsIm5iZiI6MTc0MjA0MTY1OCwiZXhwIjoxNzQyNjQ2NDU4LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIxIn19fQ.wfIRnA_akIk1vlfDxkM_j6D8yvBJ01xloThtun3Akms",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2Zhc2hpb24iLCJpYXQiOjE3NDIwNDE2NTgsIm5iZiI6MTc0MjA0MTY1OCwiZXhwIjoxNzQyNjQ2NDU4LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIxIn19fQ.wfIRnA_akIk1vlfDxkM_j6D8yvBJ01xloThtun3Akms",
           },
           body: JSON.stringify(formData),
         }
@@ -38,6 +39,7 @@ const RegisterForm = () => {
 
       if (response.ok) {
         setMessage("✅ Registration successful! Please log in.");
+        alert("✅ Registration successful! Please log in.");
         setFormData({ username: "", email: "", password: "" });
         navigate("/login");
       } else {

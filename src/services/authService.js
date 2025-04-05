@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost/fashion/wp-json/jwt-auth/v1/token";
+// const API_URL = "http://localhost/fashion/wp-json/jwt-auth/v1/token";*/
+const API_URL = "https://fakestoreapi.com/auth/login"
 
 export const loginUser = async (username, password) => {
   try {
@@ -9,11 +10,12 @@ export const loginUser = async (username, password) => {
       password,
     });
 
-    const { token, user_display_name } = response.data;
+    const { token } = response.data;
 
     // Save token to local storage
     localStorage.setItem("token", token);
-    localStorage.setItem("user", user_display_name);
+    localStorage.setItem("user", username);
+    // localStorage.setItem("user", user_display_name);
 
     return response.data;
   } catch (error) {

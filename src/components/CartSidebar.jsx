@@ -36,9 +36,9 @@ const CartSidebar = ({ cart, isOpen, toggleCart, removeFromCart }) => {
               <li key={item.id} className="flex items-center">
                 {/* Product Image */}
                 <img
-                  src={item.images[0].src}
+                  src={item.image}
                   alt={item.name}
-                  className="w-20 h-20 rounded-lg object-cover"
+                  className="w-20 h-20 rounded-lg object-fill"
                 />
 
                 {/* Product Details */}

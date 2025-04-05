@@ -14,8 +14,9 @@ const Login = () => {
 
     try {
       const userData = await loginUser(username, password);
-      alert(`Welcome, ${userData.user_display_name}`);
-      window.location.href = "/dashboard"; 
+      // alert(`Welcome, ${userData.user_display_name}`);
+      alert(`Welcome, ${username}`);
+      window.location.href = "/dashboard";
     } catch (err) {
       setError(err.message);
     } finally {
@@ -26,7 +27,9 @@ const Login = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">Login</h2>
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">
+          Login
+        </h2>
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
         <form onSubmit={handleLogin}>

@@ -4,32 +4,32 @@ import trend from "../assets/trending_bg_gray.jpg";
 import shits from "../assets/shits_bg_color.jpg";
 import glassware from "../assets/glassware_bg_color.jpg";
 import banner from "../assets/shop-slider-700.jpg";
-import { fetchBestSellerProducts } from "../utils/WooCommerceApi";
+// import { fetchBestSellerProducts } from "../utils/WooCommerceApi";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const HomePage = () => {
-  const [bestSellerProducts, setBestSellerProducts] = useState(null);
+  // const [bestSellerProducts, setBestSellerProducts] = useState(null);
 
-  useEffect(() => {
-    const fetchBestSellers = async () => {
-      const data = await fetchBestSellerProducts();
-      setBestSellerProducts(data);
-    };
-    fetchBestSellers();
-  }, []);
+  // useEffect(() => {
+  //   const fetchBestSellers = async () => {
+  //     const data = await fetchBestSellerProducts();
+  //     setBestSellerProducts(data);
+  //   };
+  //   fetchBestSellers();
+  // }, []);
 
   return (
     <>
       <div
         className="w-full h-screen bg-cover bg-no-repeat bg-center flex flex-col justify-center items-center"
-        style={{ backgroundImage: `url(${banner})`}}
+        style={{ backgroundImage: `url(${banner})` }}
       >
         <h1 className="text-[30px] md:text-[100px] font-extrabold text-white">
           OUR PRODUCTS
         </h1>
         <h2 className="text-[30px] md:text-[50px] pb-10 font-thin text-white text-center">
-        A collection of all our modern products
+          A collection of all our modern products
         </h2>
       </div>
 
@@ -68,34 +68,6 @@ const HomePage = () => {
             </button>
           </Link>
         </div>
-      </div>
-
-      <div className="container mx-auto">
-        <h1 className="text-[50px] font-semibold text-center pt-20">
-          Best Seller
-        </h1>
-        <h3 className="text-[20px] font-light text-center pt-4 pb-10">
-          Must have products from our top sellers
-        </h3>
-        {!bestSellerProducts ? (
-          <div className="flex justify-center items-center">
-            <div className="w-16 h-16 border-4 border-[#1e3c72] border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        ) : (
-          <div className="container mx-auto flex flex-wrap">
-            {bestSellerProducts.map((product) => (
-              <div className="w-1/2 md:w-1/4">
-                <Link to={`/product/${product.id}`}>
-                  <img src={product.images[0].src} />
-                </Link>
-                <h1 className="text-[20px] text-center pt-2">{product.name}</h1>
-                <h2 className="text-[15px] text-center pt-2">
-                  {product.price}
-                </h2>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="container mx-auto flex flex-col md:flex-row gap-5 pt-20">
